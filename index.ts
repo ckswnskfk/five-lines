@@ -17,7 +17,7 @@ enum RawTile {
   LOCK2,
 }
 
-interface Tile2 {
+interface Tile {
   isAir(): boolean;
   isFlux(): boolean;
   isUnbreakable(): boolean;
@@ -32,7 +32,7 @@ interface Tile2 {
   isLock2(): boolean;
 }
 
-class Air implements Tile2 {
+class Air implements Tile {
   isAir() {
     return true;
   }
@@ -71,7 +71,7 @@ class Air implements Tile2 {
   }
 }
 
-class Flux implements Tile2 {
+class Flux implements Tile {
   isAir() {
     return false;
   }
@@ -110,7 +110,7 @@ class Flux implements Tile2 {
   }
 }
 
-class Unbreakable implements Tile2 {
+class Unbreakable implements Tile {
   isAir() {
     return false;
   }
@@ -149,7 +149,7 @@ class Unbreakable implements Tile2 {
   }
 }
 
-class Player implements Tile2 {
+class Player implements Tile {
   isAir() {
     return false;
   }
@@ -188,7 +188,7 @@ class Player implements Tile2 {
   }
 }
 
-class Stone implements Tile2 {
+class Stone implements Tile {
   isAir() {
     return false;
   }
@@ -227,7 +227,7 @@ class Stone implements Tile2 {
   }
 }
 
-class FallingStone implements Tile2 {
+class FallingStone implements Tile {
   isAir() {
     return false;
   }
@@ -266,7 +266,7 @@ class FallingStone implements Tile2 {
   }
 }
 
-class Box implements Tile2 {
+class Box implements Tile {
   isAir() {
     return false;
   }
@@ -305,7 +305,7 @@ class Box implements Tile2 {
   }
 }
 
-class FallingBox implements Tile2 {
+class FallingBox implements Tile {
   isAir() {
     return false;
   }
@@ -344,7 +344,7 @@ class FallingBox implements Tile2 {
   }
 }
 
-class Key1 implements Tile2 {
+class Key1 implements Tile {
   isAir() {
     return false;
   }
@@ -383,7 +383,7 @@ class Key1 implements Tile2 {
   }
 }
 
-class Lock1 implements Tile2 {
+class Lock1 implements Tile {
   isAir() {
     return false;
   }
@@ -422,7 +422,7 @@ class Lock1 implements Tile2 {
   }
 }
 
-class Key2 implements Tile2 {
+class Key2 implements Tile {
   isAir() {
     return false;
   }
@@ -461,7 +461,7 @@ class Key2 implements Tile2 {
   }
 }
 
-class Lock2 implements Tile2 {
+class Lock2 implements Tile {
   isAir() {
     return false;
   }
@@ -603,7 +603,7 @@ let rawMap: RawTile[][] = [
   [2, 2, 2, 2, 2, 2, 2, 2],
 ];
 
-let map: Tile2[][];
+let map: Tile[][];
 
 function assertExhausted(x: never): never {
   throw new Error("Unexpected object: " + x);
