@@ -65,6 +65,8 @@ interface Tile {
   isStony(): boolean;
   isBoxy(): boolean;
   draw(g: CanvasRenderingContext2D, x: number, y: number): void;
+  drop(): void;
+  rest(): void;
   moveHorizontal(dx: number): void;
   moveVertical(dy: number): void;
 }
@@ -124,6 +126,8 @@ class Air implements Tile {
   }
 
   draw(g: CanvasRenderingContext2D, x: number, y: number) {}
+  drop() {}
+  rest() {}
 
   moveHorizontal(dx: number) {
     moveToTile(playerx + dx, playery);
@@ -193,6 +197,9 @@ class Flux implements Tile {
     g.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
   }
 
+  drop() {}
+  rest() {}
+
   moveHorizontal(dx: number) {
     moveToTile(playerx + dx, playery);
   }
@@ -261,6 +268,9 @@ class Unbreakable implements Tile {
     g.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
   }
 
+  drop() {}
+  rest() {}
+
   moveHorizontal(dx: number) {}
 
   moveVertical(dy: number) {}
@@ -321,6 +331,8 @@ class Player implements Tile {
   }
 
   draw(g: CanvasRenderingContext2D, x: number, y: number) {}
+  drop() {}
+  rest() {}
 
   moveHorizontal(dx: number) {}
 
@@ -385,6 +397,13 @@ class Stone implements Tile {
   draw(g: CanvasRenderingContext2D, x: number, y: number) {
     g.fillStyle = "#0000cc";
     g.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+  }
+
+  drop() {
+    this.falling = new Falling();
+  }
+  rest() {
+    this.falling = new Resting();
   }
 
   moveHorizontal(dx: number) {
@@ -455,6 +474,13 @@ class Box implements Tile {
     g.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
   }
 
+  drop() {
+    this.falling = new Falling();
+  }
+  rest() {
+    this.falling = new Resting();
+  }
+
   moveHorizontal(dx: number) {
     this.falling.moveHorizontal(this, dx);
   }
@@ -520,6 +546,8 @@ class Key1 implements Tile {
     g.fillStyle = "#ffcc00";
     g.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
   }
+  drop() {}
+  rest() {}
 
   moveHorizontal(dx: number) {
     removeLock1();
@@ -591,6 +619,9 @@ class Lock1 implements Tile {
     g.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
   }
 
+  drop() {}
+  rest() {}
+
   moveHorizontal(dx: number) {}
 
   moveVertical(dy: number) {}
@@ -654,6 +685,9 @@ class Key2 implements Tile {
     g.fillStyle = "#00ccff";
     g.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
   }
+
+  drop() {}
+  rest() {}
 
   moveHorizontal(dx: number) {
     removeLock2();
@@ -724,6 +758,9 @@ class Lock2 implements Tile {
     g.fillStyle = "#00ccff";
     g.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
   }
+
+  drop() {}
+  rest() {}
 
   moveHorizontal(dx: number) {}
 
@@ -937,9 +974,9 @@ function updateTile(x: number, y: number) {
     map[y + 1][x] = new Box(new Falling());
     map[y][x] = new Air();
   } else if (map[y][x].isFallingStone()) {
-    map[y][x] = new Stone(new Resting());
+    map[y][x].rest();
   } else if (map[y][x].isFallingBox()) {
-    map[y][x] = new Box(new Resting());
+    map[y][x].rest();
   }
 }
 
